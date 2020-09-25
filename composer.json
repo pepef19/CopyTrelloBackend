@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "Trello app BE",
+    "description": "Trello app backend",
     "keywords": [
         "framework",
         "laravel"
