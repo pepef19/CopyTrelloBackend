@@ -105,7 +105,7 @@ Route::post('/register','AuthController@register');
 
 Route::post('/login','AuthController@login');
 
-
+//
 //ruta email
 
 Route::post('/sendEmail', 'UsersController@sendEmail');
