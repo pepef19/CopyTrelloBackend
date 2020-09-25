@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewEmail;
 use App\Models\User;
+use http\Message\Body;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
+use Aws\Ses\SesClient;
+use Aws\Exception\AwsException;
 
 class UsersController extends Controller
 {
@@ -45,10 +49,65 @@ class UsersController extends Controller
 
         $data = $request->all();
 
-        Mail::to($data['email'])->send(new NewEmail($data['name']));
+        $SesClient = new SesClient([
+            'profile' => 'default',
+            'version' => '2010-12-01',
+            'region'  => 'us-west-2'
+        ]);
 
-        return response()->json($data);
+// Replace sender@example.com with your "From" address.
+// This address must be verified with Amazon SES.
+        $sender_email = 'trellonuclio@gmail.com';
 
+// Replace these sample addresses with the addresses of your recipients. If
+// your account is still in the sandbox, these addresses must be verified.
+        $recipient_emails = [$data['email']];
+
+// Specify a configuration set. If you do not want to use a configuration
+// set, comment the following variable, and the
+// 'ConfigurationSetName' => $configuration_set argument below.
+        $configuration_set = 'ConfigSet';
+
+        $subject = 'Amazon SES test (AWS SDK para PHP)';
+        $plaintext_body = 'This email was sent with Amazon SES using the AWS SDK for PHP.' ;
+        $html_body =  [new NewEmail($data['name'])];
+        $char_set = 'UTF-8';
+
+        try {
+            $result = $SesClient->sendEmail([
+                'Destination' => [
+                    'ToAddresses' => $recipient_emails,
+                ],
+                'ReplyToAddresses' => [$sender_email],
+                'Source' => $sender_email,
+                'Message' => [
+                    'Body' => [
+                        'Html' => [
+                            'Charset' => $char_set,
+                            'Data' => $html_body,
+                        ],
+                        'Text' => [
+                            'Charset' => $char_set,
+                            'Data' => $plaintext_body,
+                        ],
+                    ],
+                    'Subject' => [
+                        'Charset' => $char_set,
+                        'Data' => $subject,
+                    ],
+                ],
+                // If you aren't using a configuration set, comment or delete the
+                // following line
+                'ConfigurationSetName' => $configuration_set,
+            ]);
+            $messageId = $result['MessageId'];
+            echo("Email sent! Message ID: $messageId"."\n");
+        } catch (AwsException $e) {
+            // output error message if fails
+            echo $e->getMessage();
+            echo("The email was not sent. Error message: ".$e->getAwsErrorMessage()."\n");
+            echo "\n";
+        }
     }
 
     public function findAll()
