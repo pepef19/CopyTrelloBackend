@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "name": "json-server",
+      "email": "typicode",
+      "password": "1235"
+    },
+    {
+      "email": "pepefaura19@gmail.com",
+      "name": "pepefaura19@gmail.com",
+      "password": "htzdbU2hnV4Xy74",
+      "id": 2
+    },
+    {
+      "email": "pepefaura19@gmail.com",
+      "name": "pepefaura19@gmail.com",
+      "password": "htzdbU2hnV4Xy74",
+      "id": 3
+    },
+    {
+      "email": "pepefaura19@gmail.com",
+      "name": "pepefaura19@gmail.com",
+      "password": "htzdbU2hnV4Xy74",
+      "id": 4
+    },
+    {
+      "email": "pepefaura19@gmail.com",
+      "name": "pepefaura19@gmail.com",
+      "password": "htzdbU2hnV4Xy74",
+      "id": 5
+    },
+    {
+      "email": "pepefaura19@gmail.com",
+      "name": "pepefaura19@gmail.com",
+      "password": "htzdbU2hnV4Xy74",
+      "id": 6
+    }
+  ]
+}
