@@ -61,6 +61,8 @@ Route::group(['middleware' => 'auth.jwt'], function (){
 
     Route::put('/list/{id}', 'ListsController@update');
 
+    Route::post('/updateListsOrder', 'ListsController@updateListsOrder');
+
     Route::delete('/list/{id}', 'ListsController@delete');
 
     //RUTAS DE LAS CARDS

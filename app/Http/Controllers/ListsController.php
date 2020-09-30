@@ -104,4 +104,29 @@ class ListsController extends Controller
 
         return response()->json("List deleted!");
     }
+
+    public function updateListsOrder(Request $request){
+
+
+        $data = $request->only(["board_id", "lists_order"]);
+        $boardId = $data["board_id"];
+        /*
+         * [{board_id: 1, ordering:1, description: blablabal}, {board_id: 1, ordering2, description: blblblb2}]
+         */
+        $listsOrder = $data["lists_order"];
+
+        $lists = BoardList::where("board_id", $boardId)->get();
+
+        foreach($lists as $list){
+            foreach ($listsOrder as $newList){
+                if($newList["id"] == $list->id){
+                    $list->ordering = $newList["ordering"];
+                    $list->save();
+                }
+            }
+        }
+
+        return response()->json($lists);
+
+    }
 }
