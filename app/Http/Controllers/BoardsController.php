@@ -42,7 +42,7 @@ class BoardsController extends Controller
     {
         $user = $this->getAuthenticatedUser();
         $board = Board::where('id', $id)->where("user_id", $user->id)->first();
-        $lists = BoardList::with(["cards"])->where('board_id', $id)->get();
+        $lists = BoardList::with(["cards"])->where('board_id', $id)->orderBy('ordering', 'asc')->get();
         $dataResponse = [
             "board" => $board,
             "lists" => $lists
