@@ -107,7 +107,6 @@ class ListsController extends Controller
 
     public function updateListsOrder(Request $request){
 
-
         $data = $request->only(["board_id", "lists_order"]);
         $boardId = $data["board_id"];
         /*
